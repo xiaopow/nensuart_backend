@@ -14,7 +14,7 @@ server.connection({
 
 var plugins = [
   { register: require('./routes/artworks.js') },
-  // { register: require('./routes/artists.js') },
+  { register: require('./routes/artists.js') },
   // { register: require('./routes/users.js') },
   // { register: require('./routes/sessions.js') },
   // { register: require('./routes/orders.js') },

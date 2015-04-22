@@ -37,7 +37,7 @@ HTML Structure
 | GET | /artists | list all artists |
 | GET | /artists/{id} | get a specific artist |
 | POST | /artists | create a new artist, require admin authentication |
-| PUT | /artists | edit a specific artist, require admin authentication |
+| PUT | /artists/{id} | edit a specific artist, require admin authentication |
 | DELETE | /artists | delete a specific artist |
 
 ### [Admin](#admin)
@@ -61,11 +61,11 @@ HTML Structure
 | Method | Path | Description |
 |---|---|---|
 | GET | /users | List all users, require admin authentication |
-| GET | /users/{email} | Retrieve a user |
+| GET | /user | Retrieve a user, user_id in payload to specify user (for admin), if no user is specified, will return user stored in session cookie, require admin or user authentication |
 | POST | /users | Create a new user, userGroup specifies whether user is user or admin |
 | POST | /users/admin | Create a new admin, userGroup specifies whether user is user or admin |
-| PUT | /users/{email} | edit a user, require user or admin authentication |
-| DELETE | /users/{email} | delete a user, require user or admin authentication |
+| PUT | /user | edit a user, user_id in payload to specify user (for admin), if no user is specified, will edit user stored in session_id, require user or admin authentication |
+| DELETE | /user | delete a user, user_id in payload to specify user (for admin), if no user is specified, will delete user stored in session_id, require user or admin authentication |
 
 ### [User Sessions](#sessions)
 | Method | Path | Description |
@@ -90,7 +90,10 @@ HTML Structure
 |---|---|---|
 | POST | /orders | Create a new order, must contain session id, items, mailing address, billing address, customer name, date, order status |
 | GET | /orders | get all orders, require admin authentication |
-| GET | /orders/{id} | get a specific order by id, this reference id is generated after order is complete, a simple id |
-| GET | /orders/user/{user_id} | get all orders of a specifc user, require user authentication |
-| PUT | /orders/{id} | edit an order, require authentication |
+| GET | /orders/complete/{ref_id} | get a specific order by ref_id, this reference id is generated after order is complete, a simple id to prevent hacking |
+| GET | /orders/{id} | get a specific order, user or admin authentication required |
+| GET | /orders/user/{user_id} | get all orders of a specifc user, require user authentication or admin authentication |
+| GET | /orders/session | get the order linked to a session, get order by checking session_id in browser cookie, basically pending shopping carts |
+| PUT | /orders/session | edit an unfinished/processed shopping cart |
+| PUT | /orders/{id} | edit an order, require user or admin authentication |
 | DELETE | /orders/{id} | Delete an order |

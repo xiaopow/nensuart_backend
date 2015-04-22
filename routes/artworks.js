@@ -48,7 +48,7 @@ exports.register = function(server, option, next) {
       }
     },
     {
-      // Create a new artwork
+      // Create a new artwork ** remember to add logic where new artist is ceated if doesn't exist
       method: 'POST',
       path: '/artworks',
       
@@ -62,7 +62,7 @@ exports.register = function(server, option, next) {
 
             db.collection('artists').findOne({ "name": request.payload.artwork.artist }, function(err, artist) {
               if (err) { return reply('Internal MongoDB error', err); }
-              
+              if (artist === null) { return reply('Could not find matching artist'); } // add code for creating new artist here if needed
               var artwork = request.payload.artwork;
 
               artwork['artist_id'] = artist._id;
@@ -119,10 +119,29 @@ exports.register = function(server, option, next) {
             var ObjectId = request.server.plugins['hapi-mongodb'].ObjectID;
             var modArtwork = request.payload.artwork;
 
-            db.collection('artworks').update({ "_id": ObjectId(artworkId) }, { '$set': modArtwork }, function(err, artwork) {
+            db.collection('artworks').findOne({ "_id": ObjectId(artworkId) }, function(err, mongoArtwork) {
               if (err) { return reply('Internal MongoDB error', err); }
+              var newArtist = request.payload.artwork.artist;
 
-              reply(artwork);
+              if (newArtist != null && newArtist != mongoArtwork.artist) {
+
+                db.collection('artists').findOne({ "name": newArtist }, function(err, artist) {
+                  if (err) { return reply('Internal MongoDB error', err); }
+
+                  modArtwork['artist_id'] = artist._id;
+                  db.collection('artworks').update({ "_id": ObjectId(artworkId) }, { '$set': modArtwork }, function(err, artwork) {
+                    if (err) { return reply('Internal MongoDB error', err); }
+
+                    reply(artwork);
+                  });
+                });
+              } else {
+                db.collection('artworks').update({ "_id": ObjectId(artworkId) }, { '$set': modArtwork }, function(err, artwork) {
+                  if (err) { return reply('Internal MongoDB error', err); }
+
+                  reply(artwork);
+                });
+              };
             });
           // } else {
           //   // reply that admin is not authenticated
