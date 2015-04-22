@@ -1,0 +1,30 @@
+{
+  "name": "nensuart_backend",
+  "version": "1.0.0",
+  "description": "nensuart backend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xiaopow/nensuart_backend.git"
+  },
+  "keywords": [
+    "nensuart",
+    "backend"
+  ],
+  "author": "xiaopow",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xiaopow/nensuart_backend/issues"
+  },
+  "homepage": "https://github.com/xiaopow/nensuart_backend",
+  "dependencies": {
+    "bcrypt": "^0.8.2",
+    "hapi": "^8.4.0",
+    "hapi-mongodb": "^3.0.0",
+    "joi": "^6.2.0",
+    "yar": "^3.0.3"
+  }
+}
