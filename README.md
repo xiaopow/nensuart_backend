@@ -31,7 +31,7 @@ HTML Structure
 | PUT | /artworks | update data of a piece of artwork, require admin authentication |
 | DELETE | /artworks/{id} | delete a piece of artwork, require admin authentication |
 
-### [Artists](#artwork)
+### [Artists](#artists)
 | Method | Path | Description |
 |---|---|---|
 | GET | /artists | list all artists |
