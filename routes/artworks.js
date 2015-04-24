@@ -126,7 +126,7 @@ exports.register = function(server, option, next) {
               if (newArtist != null && newArtist != mongoArtwork.artist) {
 
                 db.collection('artists').findOne({ "name": newArtist }, function(err, artist) {
-                  if (err) { return reply('Internal MongoDB error', err); }
+                  if (err) { return reply('Cannot find artist', err); }
 
                   modArtwork['artist_id'] = artist._id;
                   db.collection('artworks').update({ "_id": ObjectId(artworkId) }, { '$set': modArtwork }, function(err, artwork) {
